@@ -28,10 +28,14 @@
             
               <li>
                 <a href='#Installation'>Installation</a>
+
+                
               </li>
             
               <li>
                 <a href='#Basic-Usage'>Basic Usage</a>
+
+                
               </li>
             
           </ul>
@@ -43,14 +47,20 @@
             
               <li>
                 <a href='#Basic-Features'>Basic Features</a>
+
+                
               </li>
             
               <li>
                 <a href='#Checkboxes'>Checkboxes</a>
+
+                
               </li>
             
               <li>
                 <a href='#Redefine-Structure'>Redefine Structure</a>
+
+                
               </li>
             
           </ul>
@@ -62,6 +72,8 @@
             
               <li>
                 <a href='#JSON-Viewer'>JSON Viewer</a>
+
+                
               </li>
             
           </ul>
@@ -72,19 +84,27 @@
           <ul class='nav'>
             
               <li>
-                <a href='#Tree-Options'>Tree Options</a>
+                <a href='#Component-Options'>Component Options</a>
+
+                
               </li>
             
               <li>
                 <a href='#Tree-API'>Tree API</a>
+
+                
               </li>
             
               <li>
                 <a href='#Node-API'>Node API</a>
+
+                
               </li>
             
               <li>
                 <a href='#Events'>Events</a>
+
+                
               </li>
             
           </ul>
@@ -152,7 +172,7 @@
 </ul>
 <iframe width="100%" height="500" src="//jsfiddle.net/amsik/tjkqcp2m/3/embedded/js,html,css,result/dark/" allowpaymentrequest="" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
 
-<h2 id="API"><a href="#API" class="headerlink" title="API"></a>API</h2><h3 id="Tree-Options"><a href="#Tree-Options" class="headerlink" title="Tree Options"></a>Tree Options</h3><table>
+<h2 id="API"><a href="#API" class="headerlink" title="API"></a>API</h2><h3 id="Component-Options"><a href="#Component-Options" class="headerlink" title="Component Options"></a>Component Options</h3><table>
 <thead>
 <tr>
 <th>Name</th>
@@ -206,6 +226,101 @@
 </tr>
 </tbody>
 </table>
+<h3 id="Tree-API"><a href="#Tree-API" class="headerlink" title="Tree API"></a>Tree API</h3><p>To have directly access to the Tree API you have to use <code>ref</code> property of component. See more <a href="https://vuejs.org/v2/guide/components.html#Child-Component-Refs" target="_blank" rel="noopener">Child-Component-Refs</a>.</p>
+<h4 id="Tree-find-criteria"><a href="#Tree-find-criteria" class="headerlink" title="Tree.find(criteria)"></a>Tree.find(criteria)</h4><ul>
+<li><p><strong>Arguments:</strong></p>
+<ul>
+<li>{ Object | String } criteria</li>
+</ul>
+</li>
+<li><p><strong>Returns:</strong></p>
+<ul>
+<li>Node</li>
+</ul>
+</li>
+<li><p><strong>Usage:</strong></p>
+<p>This method uses in every methods where you can find node by criteria. If <code>criteria</code> is passed as string it will be transformed like <code>{ text: criteria }</code>.<br>Examples:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">this</span>.$refs.tree.find(<span class="string">'Node Text'</span>) <span class="comment">// It will find Node that has text 'Node Text'</span></span><br><span class="line"><span class="keyword">this</span>.$refs.tree.find(<span class="regexp">/Node Text/</span>) <span class="comment">// Using RegExp. It will find: Node Text ATAT, ATATA Node Text and so on...</span></span><br><span class="line"><span class="keyword">this</span>.$refs.tree.find(&#123;</span><br><span class="line">  text: <span class="regexp">/^Item 2/</span>,</span><br><span class="line">  state: &#123; <span class="attr">checked</span>: <span class="literal">true</span>, <span class="attr">selected</span>: <span class="literal">true</span> &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="Tree-selected"><a href="#Tree-selected" class="headerlink" title="Tree.selected()"></a>Tree.selected()</h4><ul>
+<li><p><strong>Returns:</strong></p>
+<ul>
+<li>The list of selected nodes (<code>multiple</code> component options)</li>
+<li>Node</li>
+<li>null</li>
+</ul>
+</li>
+<li><p><strong>Usage:</strong></p>
+<p>You can get access to <code>selected</code> nodes and do everything you want with NodeAPI</p>
+</li>
+</ul>
+<h4 id="Tree-checked"><a href="#Tree-checked" class="headerlink" title="Tree.checked()"></a>Tree.checked()</h4><ul>
+<li><p><strong>Returns:</strong></p>
+<ul>
+<li>The list of checked nodes</li>
+<li>null</li>
+</ul>
+</li>
+<li><p><strong>Usage:</strong></p>
+<p>You can get access to <code>checked</code> nodes and do everything you want with NodeAPI</p>
+</li>
+</ul>
+<h4 id="Tree-append-criteria-node"><a href="#Tree-append-criteria-node" class="headerlink" title="Tree.append(criteria, node)"></a>Tree.append(criteria, node)</h4><ul>
+<li><p><strong>Arguments:</strong></p>
+<ul>
+<li>{ Object | Node } criteria  (see <code>find</code> method)</li>
+<li>{ Object | String } node</li>
+</ul>
+</li>
+<li><p><strong>Returns:</strong></p>
+<ul>
+<li>Appended Node</li>
+<li>null</li>
+</ul>
+</li>
+<li><p><strong>Usage:</strong></p>
+<p>This method allows you to append (add to the end of the list) new Node to the Tree.<br>There are <strong>2 types of insertion:</strong></p>
+<ul>
+<li><p>Set criteria and new Node. It will try to find Node (using criteria) and append as children of this Node. Example:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">this</span>.$refs.tree.append(</span><br><span class="line">  &#123; <span class="attr">text</span>: <span class="string">'My super Text'</span> &#125;,              <span class="comment">// search criteria</span></span><br><span class="line">  <span class="string">'New CHILD Node for "My super Text"'</span>    <span class="comment">// this string will be converted to Node object with default state parameters</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Set only one argument (Node). In this way it will add new Node as <code>root</code> element. (Yeah, we are able to have more than one root element)</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">this</span>.$refs.tree.append(&#123;</span><br><span class="line">  text: <span class="string">'My NEW Node'</span>,</span><br><span class="line">  state: &#123; <span class="attr">selected</span>: <span class="literal">true</span> &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="Tree-prepend-criteria-node"><a href="#Tree-prepend-criteria-node" class="headerlink" title="Tree.prepend(criteria, node)"></a>Tree.prepend(criteria, node)</h4><ul>
+<li><p><strong>Usage:</strong></p>
+<p>This method has behaviour the same as <code>Tree.append</code>. But insertion place will be different (<strong>in the start</strong> of the list)</p>
+</li>
+</ul>
+<h4 id="Tree-before-criteria-node"><a href="#Tree-before-criteria-node" class="headerlink" title="Tree.before(criteria, node)"></a>Tree.before(criteria, node)</h4><ul>
+<li><p><strong>Usage:</strong></p>
+<p>This method has behaviour the same as <code>Tree.append</code>. But insertion place will be different (<strong>before</strong> founded node or the start of the list (as root))</p>
+</li>
+</ul>
+<h4 id="Tree-after-criteria-node"><a href="#Tree-after-criteria-node" class="headerlink" title="Tree.after(criteria, node)"></a>Tree.after(criteria, node)</h4><ul>
+<li><p><strong>Usage:</strong></p>
+<p>This method has behaviour the same as <code>Tree.append</code>. But insertion place will be different (<strong>after</strong> founded node or the end of the list (as root))</p>
+</li>
+</ul>
+<h4 id="Tree-remove-criteria"><a href="#Tree-remove-criteria" class="headerlink" title="Tree.remove(criteria)"></a>Tree.remove(criteria)</h4><ul>
+<li><p><strong>Arguments:</strong></p>
+<ul>
+<li>{ Object | String } criteria (see <code>find</code> method)</li>
+</ul>
+</li>
+<li><p><strong>Returns:</strong></p>
+<ul>
+<li>{ Node } removed node</li>
+</ul>
+</li>
+<li><p><strong>Usage:</strong></p>
+<p>Remove Node by criteria.</p>
+</li>
+</ul>
 
     </div>
   </div>

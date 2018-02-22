@@ -266,7 +266,11 @@ pre code, pre tt {
   color: #3e999f; }
 
 table {
-  width: 100%; }
+  width: 100%;
+  margin-bottom: 3em; }
+
+.highlight table {
+  margin-bottom: 0; }
 
 table th {
   text-align: left;
