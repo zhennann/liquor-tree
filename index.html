@@ -82,6 +82,24 @@
                   
                 </li>
               
+                <li>
+                  <a href='#Filtering'>Filtering</a>
+
+                  
+                </li>
+              
+                <li>
+                  <a href='#Async-Data'>Async Data</a>
+
+                  
+                </li>
+              
+                <li>
+                  <a href='#Inline-Editing'>Inline Editing</a>
+
+                  
+                </li>
+              
             </ul>
           
         </ul>
@@ -105,6 +123,12 @@
               
                 <li>
                   <a href='#Redefine-Structure-Example'>Redefine Structure Example</a>
+
+                  
+                </li>
+              
+                <li>
+                  <a href='#Custom-Theme'>Custom Theme</a>
 
                   
                 </li>
@@ -233,9 +257,15 @@
 <td style="text-align:center">false</td>
 <td>If <strong>keyboardNavigation</strong> is false - this property is ignoring. This property defined deletion behaviour. <a href="#Keyboard-Navigation">See example</a></td>
 </tr>
+<tr>
+<td><strong>fetchData</strong></td>
+<td style="text-align:center">Object</td>
+<td style="text-align:center">-</td>
+<td>See <a href="#Async-Data">guide</a></td>
+</tr>
 </tbody>
 </table>
-<h3 id="Structure"><a href="#Structure" class="headerlink" title="Structure"></a>Structure</h3><p>The component has only two props: <strong>data</strong> and <strong>options</strong>. More about props read <a href="https://vuejs.org/v2/guide/components.html#Passing-Data-with-Props" target="_blank" rel="noopener">VueJS documentation</a></p>
+<h3 id="Structure"><a href="#Structure" class="headerlink" title="Structure"></a>Structure</h3><p>The component has only two props: <strong>data</strong> and <strong>options</strong>. More about props read <a href="https://vuejs.org/v2/guide/components.html#Passing-Data-with-Props" target="_blank" rel="noopener">VueJS documentation</a><br>Actually more. See <a href="#Filtering">filtering</a></p>
 <ul>
 <li>property <strong>options</strong> - This property defines tree behavior. See <a href="#Component-Options">Component Options</a></li>
 <li>property <strong>data</strong> - Array-like object that defines tree nodes</li>
@@ -260,7 +290,7 @@
 <iframe width="100%" height="500" src="//jsfiddle.net/amsik/25bv7nh0/embedded/html,result/dark/" allowpaymentrequest="" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
 
 <p>You able to select multiple nodes with Ctrl key. The same behavior as we are used to ;)</p>
-<h3 id="Checkboxes"><a href="#Checkboxes" class="headerlink" title="Checkboxes"></a>Checkboxes</h3><p>It was a default mode. You can switch it to <code>checkbox</code> mode. To do it you have to add tree’s option:</p>
+<h3 id="Checkboxes"><a href="#Checkboxes" class="headerlink" title="Checkboxes"></a>Checkboxes</h3><p>The example above is default mode. You can switch it to <code>checkbox</code> mode. To do it just add the tree’s option <code>checkbox</code>:</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">tree</span></span></span><br><span class="line"><span class="tag">  <span class="attr">:data</span>=<span class="string">"treeData"</span></span></span><br><span class="line"><span class="tag">  <span class="attr">:options</span>=<span class="string">"&#123; checkbox: true &#125;"</span></span></span><br><span class="line"><span class="tag">/&gt;</span></span><br></pre></td></tr></table></figure>
 <iframe width="100%" height="500" src="//jsfiddle.net/amsik/ewcy3jee/embedded/html,result/dark/" allowpaymentrequest="" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
 
@@ -288,7 +318,38 @@
 <li>In this case if Node doesn’t has a children it will be removed</li>
 </ul>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;tree</span><br><span class="line">  :data=<span class="string">"treeData"</span></span><br><span class="line">  :options=<span class="string">"&#123; deletion: node =&gt; !node.hasChildren() &#125;"</span></span><br><span class="line">/&gt;</span><br></pre></td></tr></table></figure>
-<p>Try <a href="#Checkboxes">Checkboxes</a> to remove ONLY nodes that has <code>checked</code> state </p>
+<p>Try <a href="#Checkboxes">example above</a> to remove ONLY nodes that has <code>checked</code> state (use DEL code on your keyboard) </p>
+<h3 id="Filtering"><a href="#Filtering" class="headerlink" title="Filtering"></a>Filtering</h3><p>We do not know where to show the field for filtering, how to stylize it and so on… It depends on a situation.<br>So we decided to provide a powerfull API to handle it (the library don’t know about other components on the page and this is not necessary). See examples to understand ;)</p>
+<p><strong>Default props:</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  emptyText: <span class="string">'Nothing found!'</span>,</span><br><span class="line">  matcher(query, node) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">RegExp</span>(query, <span class="string">'i'</span>).test(node.text)</span><br><span class="line">  &#125;,</span><br><span class="line">  plainList: <span class="literal">false</span>,</span><br><span class="line">  showChildren: <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>emptyText</strong> - shows when nothing found</li>
+<li><strong>showChildren</strong> - this property hides the children of the node if they are available</li>
+<li><strong>matcher</strong> - this function determines whether the node is suitable for condition</li>
+<li><strong>plainList</strong> - this property brokes the tree structure and shows plain list of matched results (but it easy to fix the structure by clearing filter :-D)</li>
+</ul>
+<iframe width="100%" height="500" src="//jsfiddle.net/amsik/o7v4a2nL/embedded/js,html,css,result/dark/" allowpaymentrequest="" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+
+
+<h3 id="Async-Data"><a href="#Async-Data" class="headerlink" title="Async Data"></a>Async Data</h3><p>There are two ways to set an async data:</p>
+<ul>
+<li><strong>data</strong> property as a Promise. You can pass it as an array (a lot of examples above) or as a Promise-like object (object what has the <strong>then</strong> method)</li>
+<li><strong>fetchData</strong> options. This options is flexible. See examples below.</li>
+</ul>
+<p><strong>fetchData</strong> options: </p>
+<ul>
+<li>As a string. It is like an a pattern. The construction in curly brackets is replaced with similar values in the node object</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  treeOptions: &#123;</span><br><span class="line">    fetchData: <span class="string">`/assets/data/fetch0/data-&#123;id&#125;.json`</span>,</span><br><span class="line">    <span class="comment">// fetchData: `/data?id=&#123;id&#125;&amp;text=&#123;text&#125;`</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>As a function that returns a string. The same as above. It is run for each request.</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  treeOptions: &#123;</span><br><span class="line">    fetchData(node) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="string">`/assets/data/fetch0/data-<span class="subst">$&#123;node.id&#125;</span>.json`</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>As a function that returns a promise-like object. You can do a request to server as you wish</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  treeOptions: &#123;</span><br><span class="line">    fetchData(node) &#123;</span><br><span class="line">      <span class="keyword">return</span> fetch(<span class="string">`/assets/data/fetch0/data-<span class="subst">$&#123;node.id&#125;</span>.json`</span>)</span><br><span class="line">        .then(<span class="function"><span class="params">r</span> =&gt;</span> r.json())</span><br><span class="line">        .catch(<span class="function"><span class="params">e</span> =&gt;</span> <span class="built_in">console</span>.log(e))</span><br><span class="line">    &#125;,</span><br><span class="line"></span><br><span class="line">    <span class="comment">// or</span></span><br><span class="line">    fetchData(node) &#123;</span><br><span class="line">      <span class="keyword">return</span> axios.get(<span class="string">'/user'</span>, &#123;</span><br><span class="line">        params: &#123;</span><br><span class="line">          ID: node.id</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Inline-Editing"><a href="#Inline-Editing" class="headerlink" title="Inline Editing"></a>Inline Editing</h3><p>In progress…</p>
 <h2 id="Examples"><a href="#Examples" class="headerlink" title="Examples"></a>Examples</h2><h3 id="JSON-Viewer"><a href="#JSON-Viewer" class="headerlink" title="JSON Viewer"></a>JSON Viewer</h3><p>I did this in 40 min … do not judge me strictly :)<br>In plans:</p>
 <ul>
 <li>online editor</li>
@@ -304,6 +365,10 @@
 <p>In this example we have structure:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">  MY_TEXT: <span class="string">'some text'</span>, <span class="attr">KIDS</span>: []</span><br><span class="line">]</span><br></pre></td></tr></table></figure></p>
 <p>A library doesn’t know this format. But we can add <code>propertyNames</code> options and redefine structure. See example</p>
 <iframe width="100%" height="500" src="//jsfiddle.net/amsik/y7190jkd/embedded/html,result/dark/" allowpaymentrequest="" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+
+
+<h3 id="Custom-Theme"><a href="#Custom-Theme" class="headerlink" title="Custom Theme"></a>Custom Theme</h3><p>This example shows how to use tree in real life</p>
+<iframe width="100%" height="500" src="//jsfiddle.net/amsik/qka5pxdm/embedded/js,html,css,result/dark/" allowpaymentrequest="" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
 
 
 <h2 id="API"><a href="#API" class="headerlink" title="API"></a>API</h2><h3 id="Tree-API"><a href="#Tree-API" class="headerlink" title="Tree API"></a>Tree API</h3><p>To have directly access to the Tree API you have to use <code>ref</code> property of component. See more <a href="https://vuejs.org/v2/guide/components.html#Child-Component-Refs" target="_blank" rel="noopener">Child-Component-Refs</a>.</p>
