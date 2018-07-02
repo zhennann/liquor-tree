@@ -30,7 +30,7 @@ const NodeContent = {
               node.stopEditing(nodeText)
             }
           },
-          mouseup (e) {
+          click (e) {
             e.stopPropagation()
           }
         },
